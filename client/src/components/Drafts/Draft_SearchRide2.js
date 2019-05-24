@@ -1,5 +1,4 @@
 import React from 'react';
-import Ride from './Ride';
 
 class SearchRide extends React.Component {
 	constructor(props) {
@@ -7,8 +6,8 @@ class SearchRide extends React.Component {
 		this.state = {
 			pickUpPlace: '',
 			destination: '',
-			date: '',
-			rides: null
+			searchResults: null,
+			date: ''
 		}
 	}
 
@@ -30,25 +29,16 @@ class SearchRide extends React.Component {
 			headers: {'Content-Type': 'application/json'},
 			params: {}
 		})
-		   .then(response => {if(response.status > 200) {
-		   	throw new Error();}console.log(response);return response.json();})
-		   .then(data => {
-		   	  if (data) {
-		   	  	//console.log(data);
-		   	  	this.state.rides = data;
-		   	  	console.log(data);
-		   	  	this.forceUpdate();
-		   	  	// this.props.onRouteChange('signin');
+		   .then(response => response.json())
+		   .then(ride => {
+		   	  if (ride) {
+		   	  	this.props.onRouteChange('showrides');
 		   	  }
-		   }).catch(err => {console.error(err)})	
+		   })
+
 	}
 
 	render(){
-		const { onRouteChange } = this.props;
-		const { rides} = this.state;
-		
-		 
-if(rides == null){
 		return (  
 	
 	 	<div className="sans-serif w-90 white mw6 center relative cover bg-top mt2">
@@ -89,31 +79,6 @@ if(rides == null){
    		</div>
   
 		);
-	}else{
-		return (
-			<div> {
-			rides.map((user, i) => {
-
-				return (
-					<Ride 
-						key={i} 
-						id={rides[i].id} 
-						from={rides[i].from} 
-						to={rides[i].to} 
-						when={rides[i].when}
-						time={rides[i].time}
-						seatAvail={rides[i].seatAvail}
-						price={rides[i].price}
-						driverUsername={rides[i].driverUsername}
-						stopovers={rides[i].stopovers}
-						notes={rides[i].notes}
-					/>
-				)
-			})
-		}
-		</div>
-		);
-	}
 	}
 
 }

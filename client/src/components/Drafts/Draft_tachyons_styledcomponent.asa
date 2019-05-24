@@ -1,0 +1,15 @@
+import styled from 'styled-components';
+
+const RideTime = styled.div.attrs({
+	className: "input-reset db mb4  mw-100  white b pv2 ph3 bg-white-50 hover-bg-white-70 hover-gray outline-0 bn br-pill"
+})`
+	color: #999999;
+	defaultValue: 'Time';
+    type: "time";
+    name: "rideTime";
+    required;
+    height: 4em;
+
+`;
+
+//<RideTime>{this.rideTime} Time</RideTime>

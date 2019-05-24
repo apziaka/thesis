@@ -1,5 +1,4 @@
 import React from 'react';
-import Ride from './Ride';
 
 class SearchRide extends React.Component {
 	constructor(props) {
@@ -7,8 +6,8 @@ class SearchRide extends React.Component {
 		this.state = {
 			pickUpPlace: '',
 			destination: '',
-			date: '',
-			rides: null
+			searchResults: null,
+			date: ''
 		}
 	}
 
@@ -35,9 +34,9 @@ class SearchRide extends React.Component {
 		   .then(data => {
 		   	  if (data) {
 		   	  	//console.log(data);
-		   	  	this.state.rides = data;
+		   	  	this.state.searchResults = data;
 		   	  	console.log(data);
-		   	  	this.forceUpdate();
+		   	  	this.render();
 		   	  	// this.props.onRouteChange('signin');
 		   	  }
 		   }).catch(err => {console.error(err)})	
@@ -45,10 +44,8 @@ class SearchRide extends React.Component {
 
 	render(){
 		const { onRouteChange } = this.props;
-		const { rides} = this.state;
 		
-		 
-if(rides == null){
+if(this.state.searchResults == null){
 		return (  
 	
 	 	<div className="sans-serif w-90 white mw6 center relative cover bg-top mt2">
@@ -91,28 +88,20 @@ if(rides == null){
 		);
 	}else{
 		return (
-			<div> {
-			rides.map((user, i) => {
 
-				return (
-					<Ride 
-						key={i} 
-						id={rides[i].id} 
-						from={rides[i].from} 
-						to={rides[i].to} 
-						when={rides[i].when}
-						time={rides[i].time}
-						seatAvail={rides[i].seatAvail}
-						price={rides[i].price}
-						driverUsername={rides[i].driverUsername}
-						stopovers={rides[i].stopovers}
-						notes={rides[i].notes}
-					/>
-				)
-			})
-		}
-		</div>
-		);
+
+				 	<div className="sans-serif w-90 white mw6 center relative cover bg-top mt2">
+      		
+      		<article id="overlay" className="br3 ba dark-gray w-100 w-50-m w-100-l mw7 shadow-5 center absolute absolute--fill bg-navy o-70 z-unset"></article>
+      		<div className="relative pa4 pa5-m">
+        		<h1 className="f1 serif tracked ma0 mb4 pv3 white">Search for a ride</h1>
+				
+
+
+
+     		</div>
+   		</div> 
+			);
 	}
 	}
 

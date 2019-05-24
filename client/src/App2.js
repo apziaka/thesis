@@ -6,14 +6,12 @@ import Register from './components/Register/Register';
 import About from './components/About/About';
 import SearchRide from './components/SearchRide/SearchRide';
 import MainButtons from './components/MainButtons/MainButtons';
-import Form from './components/OfferRide/Form';
-//import TheRides from './components/TheRides/TheRides';
-//import ShowRides from './components/ShowRides/ShowRides';
 import './App.css';
 
 const initialState = {
   route: 'home',
   isSignedIn: false,
+  //search: false,
   user: {
    email: '',
    firstName: '',
@@ -21,8 +19,7 @@ const initialState = {
    username: '',
    gender: '',
    dateBirth: '',
-   details: '',
-   rides: []
+   details: ''
   }
 }
 
@@ -31,6 +28,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = initialState;
+    //this.searchOn = this.searchOn.bind(this);
+    //this.searchOff = this.searchOff.bind(this);
   }
 
   loadUser = (data) => {
@@ -45,16 +44,6 @@ class App extends Component {
     }})
   }
 
-  componentDidMount(){
-    fetch(`http://localhost:3000/searchride`, {
-      method: 'get',
-      headers: {'Content-Type': 'application/json'}
-    })
-    .then(response=> response.json())
-    .then(data => this.setState({ rides: data })) 
-    
-  }
-
   onRouteChange = (route) => {
     if (route === 'signout') {
       this.setState(initialState)
@@ -63,42 +52,70 @@ class App extends Component {
     }
     this.setState({route: route});
   }
+/*
+  searchOn() {
+    this.setState({
+      search: true
+    });
+  }
 
-  renderRouteSelection() {
+  searchOff() {
+    this.setState({
+      sea: false
+    });
+  }
+*/
+  renderInputField() {
     if(this.state.route === 'home' || this.state.route === 'firstpage') {
       return (
-        <div>
-          <MainButtons onRouteChange={this.onRouteChange} /> 
-          <About />
-        </div>
+        <MainButtons onRouteChange={this.onRouteChange} />
+        if( this.state.route === 'rides' ) {
+          <SearchRide onRouteChange={this.onRouteChange} />
+        } else {
+          <p className='f3 link dim white underline pa3 pointer'>Offer</p>
+        }
       ) ;
-    } 
-
-    if( this.state.route === 'rides' ) {
-      return(
-        <SearchRide onRouteChange={this.onRouteChange} />
-      );     
-    } else if ( this.state.route === 'offers' )  {
-      return(
-        <Form onRouteChange={this.onRouteChange} />
-      );      
     } else if ( this.state.route === 'signin') {
       return (
           <Signin onRouteChange={this.onRouteChange} />
       );
-    }  else {
+    } else {
       return (
           <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
       );
     }
   }
 
+
   render() {
     return (
       <div className="App">
         <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
         <Logo />
-        {this.renderRouteSelection()}
+        {(this.state.route === 'home' || this.state.route === 'firstpage')
+          ? <div>
+              <MainButtons onRouteChange={this.onRouteChange} />
+              {( this.state.route === 'rides' 
+                ? <SearchRide onRouteChange={this.onRouteChange} />
+                : <p className='f3 link dim white underline pa3 pointer'>Offer</p>
+               )
+              }
+              
+              <About />
+              
+            {
+            /*
+             <Logo />
+             <SearchRide />
+             <OfferRide />
+              */}
+
+            </div>
+          : ( this.state.route === 'signin'
+              ? <Signin onRouteChange={this.onRouteChange} />
+              : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+            )
+        }
       </div>
     );
   }
