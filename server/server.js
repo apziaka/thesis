@@ -192,6 +192,24 @@
  	  })	
  })
 
+ app.get('/showride',(req, res) => {
+ 	const id = req.query['id'];
+ 	// console.log(from);
+ 	// console.log(to);
+ 	// console.log(date);
+ 	if (!id) {
+ 		return res.status(400).json('incorrect form submission');
+ 	}
+ 	return db.select('*').from('rides')
+ 	  .where('id', '=', id)
+ 	  .returning('*')
+	  .then(ride => {
+	  	console.log(ride);
+ 	    res.json(ride);
+ 	  })
+	  .catch(err => res.status(400).json('something is wrong'))
+ }) 
+
 
  /*app.get('/profile/:username', (req, res) => {
  	const { username } = req.params;

@@ -1,24 +1,18 @@
 import React from 'react';
 import ShowRide from './ShowRide';
 
-class Ride extends React.Component {
+class Draft_Ride extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			//id: null,
-			pushed: false,
+			id: '',
+			//pushed: false,
 			rides: null
 		}
 	}
+/*
 
-	setID = (id) => {
-      this.setState({id: this.props.id})
-      this.setState({pushed: false})
-      //this.forceUpdate();
-     
- 	}
-
- 	onSubmitSearch = () => {
+ 	onDataChange = () => {
 		fetch(`http://localhost:3000/showride?id=${this.props.id}`, {
 			method: 'get',
 			headers: {'Content-Type': 'application/json'},
@@ -32,19 +26,22 @@ class Ride extends React.Component {
 		   	  	//console.log(this.state.pushed);
 		   	  	//console.log(data);
 		   	  	this.state.rides = data;
+		   	  	//this.setState({ rides: data.rides })
 		   	  	console.log(this.state.rides);
 		   	  	//this.setState({pushed: true})
-		   	  	this.state.pushed = true;
-		   	  	this.forceUpdate();
+		   	  	//this.state.pushed = true;
+		   	  	//this.forceUpdate();
+		   	  	this.setState({ key: Math.random() });
 		   	  	// this.props.onRouteChange('signin');
 		   	  }
 		   }).catch(err => {console.error(err)})	
 	}
 
+*/
 	render() {
+		
 		const { rides } = this.state;
-
-	  if (this.state.pushed == false) {
+	 if (rides == null) {
 		return(
 		
 		<div className='tc bg-light-green dib br3 ma2 grow shadow-5'>
@@ -56,39 +53,40 @@ class Ride extends React.Component {
 				<h2>{this.props.to}</h2>
 				<p>{this.props.when}</p>
 				<h1>{this.props.price} $ </h1>
-				<button onClick={this.onSubmitSearch} className='pa1 tc grow f3 bw0 link ph3 pv5 mb13 dib white bg-dark-blue shadow-5'>Show more</button>
 					
 			</div>
 		</div>
 		);
-	  } else {
-	  	return(
-	  		
-    				<ShowRide 
-	  					id={rides.id} 
-						from={rides.from} 
-						to={rides.to} 
-						when={rides.when}
-						time={rides.time}
-						seatAvail={rides.seatAvail}
-						price={rides.price}
-						driverUsername={rides.driverUsername}
-						stopovers={rides.stopovers}
-						notes={rides.notes} 
-	  				/>
-	  		
-	  			
-	  		
-	  		
-	  	);
-	    
-	  
-	  }
+	 } else {
+	 	if (rides && rides.length > 0){
+	 	return(
 		
+		<div className='tc bg-light-green dib br3 ma2 grow shadow-5'>
+			<div>
+				{console.log(rides[0].from)}
+				
+				/*<ShowRide 
+					key={this.state.key}
+					id={rides[0].id} 
+					from={rides[0].from} 
+					to={rides[0].to} 
+					when={rides[0].when}
+					time={rides[0].time}
+					seatAvail={rides[0].seatAvail}
+					price={rides[0].price}
+					driverUsername={rides[0].driverUsername}
+					stopovers={rides[0].stopovers}
+					notes={rides[0].notes} 
+				/>*/
+			</div>
+		</div>
+		);
+		}
+	 }
 	
 	
     }
 }
 
-export default Ride;
+export default Draft_Ride;
 
